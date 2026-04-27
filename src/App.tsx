@@ -77,7 +77,6 @@ const App = () => (
               <BrowserRouter>
                 <FacebookPixelProvider>
                   <ScrollToTop />
-                  <DynamicFavicon />
                   <Routes>
                     {/* Public Store Routes - No auth required */}
                     <Route path="/" element={<LandingPageView />} />

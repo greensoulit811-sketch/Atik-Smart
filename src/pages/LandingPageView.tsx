@@ -205,19 +205,19 @@ export default function LandingPageView() {
                   <a href="/about" className="hover:opacity-50 transition-opacity">About</a>
                </div>
 
-               <div className="flex-1 flex justify-center">
-                  <span className="text-2xl font-black font-serif uppercase tracking-tight leading-none text-center">
+               <div className="flex-1 flex justify-center px-2">
+                  <span className="text-lg sm:text-2xl font-black font-serif uppercase tracking-tight leading-none text-center">
                      {settings?.site_name?.split(' ').map((word, i) => (
                         <span key={i} className={i % 2 !== 0 ? 'italic font-normal' : ''}>{word} </span>
                      ))}
                   </span>
                </div>
 
-               <div className="flex-1 flex justify-end items-center gap-6">
-                  <button className="hover:scale-110 transition-transform" onClick={() => navigate('/admin/login')}>
+               <div className="flex-1 flex justify-end items-center gap-3 sm:gap-6">
+                  <button className="hover:scale-110 transition-transform p-1" onClick={() => navigate('/admin/login')}>
                      <User className="h-5 w-5 stroke-[1.5px]" />
                   </button>
-                  <button className="hover:scale-110 transition-transform" onClick={scrollToCheckout}>
+                  <button className="hover:scale-110 transition-transform p-1" onClick={scrollToCheckout}>
                      <ShoppingBag className="h-5 w-5 stroke-[1.5px]" />
                   </button>
                </div>
@@ -232,6 +232,14 @@ export default function LandingPageView() {
                alt="Hero Banner"
             />
          </section>
+
+         {/* --- Centered CTA Button --- */}
+         <div className="flex justify-center py-8 sm:py-12 bg-white relative z-20 px-4">
+            <Button onClick={scrollToCheckout} className="min-h-[4rem] h-auto py-4 px-8 sm:px-12 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg sm:text-xl font-black transition-all shadow-2xl shadow-orange-200 flex items-center justify-center gap-3 group text-center">
+               অর্ডার করতে ক্লিক করুন
+               <ArrowRight className="h-6 w-6 group-hover:translate-x-1 transition-transform shrink-0" />
+            </Button>
+         </div>
 
          {/* --- Premium Product Showcase (2nd Section) --- */}
          <section className="py-20 lg:py-32 px-6 bg-[#fffaf5] relative overflow-hidden">
@@ -290,12 +298,12 @@ export default function LandingPageView() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                     <Button onClick={scrollToCheckout} className="h-16 px-10 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-lg font-bold transition-all shadow-lg shadow-orange-200 flex items-center justify-center gap-3 group">
+                     <Button onClick={scrollToCheckout} className="min-h-[4rem] h-auto py-4 px-10 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-bold transition-all shadow-lg shadow-orange-200 flex items-center justify-center gap-3 group text-center">
                         {page.section2_cta_text || 'অর্ডার করতে চাই'}
-                        <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform shrink-0" />
                      </Button>
-                     <a href={`tel:${settings?.phone}`} className="h-16 px-10 border-2 border-orange-600 text-orange-600 hover:bg-orange-50 rounded-xl text-lg font-bold flex items-center justify-center gap-3 transition-colors">
-                        <Phone className="h-5 w-5" />
+                     <a href={`tel:${settings?.phone}`} className="min-h-[4rem] h-auto py-4 px-10 border-2 border-orange-600 text-orange-600 hover:bg-orange-50 rounded-lg text-lg font-bold flex items-center justify-center gap-3 transition-colors text-center">
+                        <Phone className="h-5 w-5 shrink-0" />
                         {page.section2_phone_text || 'সরাসরি কল করুন'}
                      </a>
                   </div>
@@ -304,21 +312,21 @@ export default function LandingPageView() {
          </section>
 
          {/* --- Effectiveness & Benefits (3rd Section) --- */}
-         <section className="py-24 px-6 bg-[#0a0a0a] text-white relative overflow-hidden">
-            {/* Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+         <section className="py-12 sm:py-24 px-6 bg-[#0a0a0a] text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-900/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 
-            <div className="max-w-[1000px] mx-auto relative z-10 space-y-16">
-               <div className="text-center space-y-6">
-                  <div className="inline-block px-4 py-1.5 bg-orange-600/20 text-orange-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-orange-600/30">
+            <div className="max-w-[1000px] mx-auto relative z-10 space-y-20">
+               <div className="text-center space-y-8">
+                  <div className="inline-block px-5 py-2 bg-gradient-to-r from-orange-600/20 to-orange-900/20 text-orange-400 text-[11px] font-black uppercase tracking-[0.25em] rounded-full border border-orange-600/30 backdrop-blur-sm">
                      {page.section3_badge || 'উপকারিতা'}
                   </div>
-                  <h2 className="text-4xl lg:text-6xl font-serif font-black uppercase tracking-tight leading-tight">
+                  <h2 className="text-3xl sm:text-4xl lg:text-7xl font-serif font-black uppercase tracking-tight leading-[1.1] px-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
                      {page.section3_title || 'এর কার্যকারিতা ও উপকারিতা'}
                   </h2>
                </div>
 
-               <div className="space-y-0 border-t border-white/10">
+               <div className="grid grid-cols-1 gap-6 px-2">
                   {(page.benefits.length > 0 ? page.benefits : [
                      { text: 'বিশেষ মুহূর্তে দুর্বলতা চিরতরে দূর করে এবং স্ত্রীর কাছে আপনাকে করে তোলে সেরা পুরুষ।' },
                      { text: 'পুরুষত্ব ধরে রাখে এবং শারীরিক শক্তি বাড়ায়।' },
@@ -326,19 +334,22 @@ export default function LandingPageView() {
                      { text: 'শতভাগ খাঁটি মধু ও প্রাকৃতিক উপাদান, কোনো পার্শ্বপ্রতিক্রিয়া নেই।' },
                      { text: 'রক্ত সঞ্চালন ত্বরান্বিত করে, আকাঙ্ক্ষা বৃদ্ধি করে এবং মানসিক মুডকে প্রফুল্ল রাখে।' }
                   ]).map((benefit, i) => (
-                     <div key={i} className="flex items-start gap-6 py-8 border-b border-white/10 group hover:bg-white/[0.02] transition-colors px-4">
-                        <div className="mt-1 w-6 h-6 rounded-full bg-orange-600 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(234,88,12,0.4)]">
-                           <CheckCircle2 className="h-4 w-4 text-white" />
+                     <div key={i} className="group relative p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-md transition-all duration-500 hover:bg-white/[0.06] hover:border-orange-600/30 hover:-translate-y-1 overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-br from-orange-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 relative z-10">
+                           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-600 to-orange-800 flex items-center justify-center shrink-0 shadow-[0_10px_25px_-5px_rgba(234,88,12,0.5)] group-hover:scale-110 transition-transform duration-500">
+                              <CheckCircle2 className="h-7 w-7 text-white" />
+                           </div>
+                           <p className="text-lg sm:text-xl lg:text-2xl font-medium text-zinc-300 leading-relaxed group-hover:text-white transition-colors">
+                              {benefit.text}
+                           </p>
                         </div>
-                        <p className="text-lg lg:text-xl font-medium text-zinc-300 leading-relaxed group-hover:text-white transition-colors">
-                           {benefit.text}
-                        </p>
                      </div>
                   ))}
                </div>
 
                <div className="text-center pt-8">
-                  <Button onClick={scrollToCheckout} className="h-16 px-16 bg-orange-600 hover:bg-orange-700 text-white rounded-full text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
+                  <Button onClick={scrollToCheckout} className="h-16 px-16 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
                      অর্ডার করতে চাই
                   </Button>
                </div>
@@ -346,7 +357,7 @@ export default function LandingPageView() {
          </section>
 
          {/* --- Quality Guarantee & Certificate (4th Section) --- */}
-         <section className="py-24 px-6 bg-[#fffaf5] relative overflow-hidden">
+         <section className="py-12 sm:py-24 px-6 bg-[#fffaf5] relative overflow-hidden">
             {/* Dot pattern background */}
             <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
 
@@ -358,11 +369,11 @@ export default function LandingPageView() {
                </div>
 
                <div className="space-y-6">
-                  <h2 className="text-4xl lg:text-6xl font-serif font-black text-[#a62626] leading-tight tracking-tight">
+                  <h2 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-black text-[#a62626] leading-tight tracking-tight px-4">
                      {page.section4_title || 'ফলাফল না পেলে মূল্য ফেরত দেওয়া হবে!'}
                   </h2>
                   <div className="max-w-2xl mx-auto">
-                     <p className="text-lg lg:text-xl font-bold text-gray-700 leading-relaxed whitespace-pre-wrap">
+                     <p className="text-sm sm:text-lg lg:text-xl font-bold text-gray-700 leading-relaxed whitespace-pre-wrap px-4">
                         {page.section4_subtitle || 'সেবনের মাত্র ১ ঘণ্টার মধ্যে প্রাথমিক ফলাফল অনুভব করা যাবে। শরীরের শক্তি ও সহনশীলতা বৃদ্ধি করে, মুড ও আকাঙ্ক্ষা উন্নত করতে সাহায্য করে।'}
                      </p>
                   </div>
@@ -382,7 +393,7 @@ export default function LandingPageView() {
                </div>
 
                <div className="pt-6">
-                  <Button onClick={scrollToCheckout} className="h-16 px-12 bg-orange-600 hover:bg-orange-700 text-white rounded-full text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
+                  <Button onClick={scrollToCheckout} className="h-16 px-12 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
                      {page.section4_cta_text || 'অর্ডার করতে চাই'}
                      <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
                   </Button>
@@ -402,8 +413,8 @@ export default function LandingPageView() {
          )}
 
          {/* --- Pricing & Packages (6th Section) --- */}
-         <section className="py-24 px-6 bg-[#fff9f2] relative overflow-hidden">
-            <div className="max-w-[1200px] mx-auto space-y-16 relative z-10">
+         <section className="py-12 sm:py-24 px-6 bg-[#fff9f2] relative overflow-hidden">
+            <div className="max-w-[1200px] mx-auto space-y-10 sm:space-y-16 relative z-10">
                <div className="text-center space-y-4">
                   <h2 className="text-3xl lg:text-5xl font-serif font-black text-[#a64d1d] uppercase tracking-tight">
                      {page.section6_title || 'প্যাকেজ ও প্রাইস'}
@@ -435,7 +446,7 @@ export default function LandingPageView() {
                         <div className="flex items-baseline gap-2 py-4 border-y border-orange-50 w-full justify-center">
                            <span className="text-5xl font-sans font-black text-gray-900">{formatCurrency(pkg.price)}</span>
                         </div>
-                        <Button onClick={scrollToCheckout} className="w-full h-14 bg-[#ea580c] hover:bg-[#c2410c] text-white rounded-xl text-lg font-black transition-all shadow-lg shadow-orange-200 flex items-center justify-center gap-2 group active:scale-95">
+                        <Button onClick={scrollToCheckout} className="w-full h-14 bg-[#ea580c] hover:bg-[#c2410c] text-white rounded-lg text-lg font-black transition-all shadow-lg shadow-orange-200 flex items-center justify-center gap-2 group active:scale-95">
                            অর্ডার করুন
                         </Button>
                      </div>
@@ -449,10 +460,10 @@ export default function LandingPageView() {
             <div className="w-full bg-gradient-to-r from-[#ea580c] via-[#c2410c] to-[#9a3412] text-white py-8 px-6 shadow-[0_20px_40px_rgba(234,88,12,0.2)] relative z-10">
                <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
                   <div className="flex items-center gap-4">
-                     <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shrink-0 shadow-xl">
-                        <Truck className="h-8 w-8 text-[#ea580c]" />
+                     <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-full flex items-center justify-center shrink-0 shadow-xl">
+                        <Truck className="h-6 w-6 sm:h-8 sm:w-8 text-[#ea580c]" />
                      </div>
-                     <p className="text-xl lg:text-3xl font-black italic uppercase tracking-tight">
+                     <p className="text-lg sm:text-2xl lg:text-3xl font-black italic uppercase tracking-tight text-center md:text-left">
                         {page.section6_sticky_text?.split('!')[0]} <span className="text-yellow-400">{page.section6_sticky_text?.includes('!') ? page.section6_sticky_text.split('!')[1] || 'ফ্রি ডেলিভারি!' : 'ফ্রি ডেলিভারি!'}</span>
                      </p>
                   </div>
@@ -465,7 +476,7 @@ export default function LandingPageView() {
                            <span>{page.section6_sticky_countdown || '01:10:37'}</span>
                         </div>
                      </div>
-                     <Button onClick={scrollToCheckout} className="bg-white text-[#ea580c] hover:bg-yellow-50 font-black rounded-full px-10 py-4 text-lg flex items-center gap-3 shadow-2xl transition-all hover:scale-105 active:scale-95 group">
+                     <Button onClick={scrollToCheckout} className="bg-white text-[#ea580c] hover:bg-yellow-50 font-black rounded-lg px-10 py-4 text-lg flex items-center gap-3 shadow-2xl transition-all hover:scale-105 active:scale-95 group">
                         অর্ডার করুন <ShoppingBag className="h-5 w-5 group-hover:rotate-12 transition-transform" />
                      </Button>
                   </div>
@@ -562,15 +573,17 @@ export default function LandingPageView() {
                         </div>
                      </div>
 
-                     <Button type="submit" className="w-full h-16 bg-[#c2410c] hover:bg-[#9a3412] text-white text-xl font-black rounded-full transition-all shadow-xl shadow-orange-100 group active:scale-95" disabled={createOrder.isPending || !selectedProduct}>
+                     <Button type="submit" className="w-full h-16 bg-[#c2410c] hover:bg-[#9a3412] text-white text-xl font-black rounded-lg transition-all shadow-xl shadow-orange-100 group active:scale-95" disabled={createOrder.isPending || !selectedProduct}>
                         {createOrder.isPending ? 'অর্ডার প্রসেস হচ্ছে...' : `অর্ডার কনফার্ম করুন ${selectedProduct ? formatCurrency(selectedProduct.price) : ''}`}
                      </Button>
                   </form>
 
                   <div className="pt-4">
-                     <a href={`tel:${settings?.phone}`} className="w-full h-16 border-2 border-dashed border-[#ea580c] rounded-xl flex items-center justify-center gap-4 group hover:bg-orange-50 transition-colors">
+                     <a href={`tel:${settings?.phone}`} className="w-full min-h-[4rem] py-4 px-6 border-2 border-dashed border-[#ea580c] rounded-lg flex flex-col sm:flex-row items-center justify-center gap-4 group hover:bg-orange-50 transition-colors text-center">
                         <span className="text-lg font-bold text-gray-700">সরাসরি অর্ডার করতে কল করুন-</span>
-                        <span className="bg-[#ea580c] text-white px-6 py-2 rounded-full font-black text-xl">{settings?.phone || '01861-192761'}</span>
+                        <span className="bg-[#ea580c] text-white px-8 py-3 rounded-full font-black text-xl shadow-lg shadow-orange-200">
+                           {settings?.phone || '01861-192761'}
+                        </span>
                      </a>
                   </div>
                </div>
