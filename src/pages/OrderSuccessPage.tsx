@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { CheckCircle, Package, ArrowRight } from 'lucide-react';
-import { Layout } from '@/components/layout/Layout';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { CheckCircle, Package, ArrowRight, User, ShoppingBag, Search } from 'lucide-react';
 import { useSiteSettings } from '@/contexts/SiteSettingsContext';
 import { Button } from '@/components/ui/button';
 import { useOrderByNumber } from '@/hooks/useOrders';
@@ -9,6 +8,7 @@ import { trackPurchase } from '@/lib/facebook-pixel';
 
 export default function OrderSuccessPage() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const orderId = searchParams.get('orderId') || 'N/A';
   const { t, settings } = useSiteSettings();
   const { data: order } = useOrderByNumber(orderId);
@@ -33,8 +33,35 @@ export default function OrderSuccessPage() {
   }, [order, settings.currency_code]);
 
   return (
-    <Layout>
-      <div className="container-shop section-padding">
+    <div className="min-h-screen bg-white">
+      {/* --- Header --- */}
+      <header className="sticky top-0 z-[100] bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div className="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex-1 flex gap-6 text-[11px] font-bold uppercase tracking-widest hidden lg:flex">
+            <a href="/" className="hover:opacity-50 transition-opacity">Home</a>
+            <a href="/about" className="hover:opacity-50 transition-opacity">About</a>
+          </div>
+
+          <div className="flex-1 flex justify-center">
+            <span className="text-2xl font-black font-serif uppercase tracking-tight leading-none text-center">
+              {settings?.site_name?.split(' ').map((word, i) => (
+                <span key={i} className={i % 2 !== 0 ? 'italic font-normal' : ''}>{word} </span>
+              ))}
+            </span>
+          </div>
+
+          <div className="flex-1 flex justify-end items-center gap-6">
+            <button className="hover:scale-110 transition-transform" onClick={() => navigate('/admin/login')}>
+              <User className="h-5 w-5 stroke-[1.5px]" />
+            </button>
+            <button className="hover:scale-110 transition-transform" onClick={() => navigate('/')}>
+              <ShoppingBag className="h-5 w-5 stroke-[1.5px]" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="container-shop py-20">
         <div className="max-w-lg mx-auto text-center">
           <div className="w-20 h-20 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="h-10 w-10 text-success" />
@@ -43,52 +70,56 @@ export default function OrderSuccessPage() {
           <h1 className="text-3xl md:text-4xl font-bold mb-4">
             {t('order.success')}
           </h1>
-          <p className="text-muted-foreground mb-8">
+          <p className="text-muted-foreground mb-8 text-lg">
             {t('order.orderConfirmation')}
           </p>
 
-          <div className="bg-card rounded-xl border border-border p-6 mb-8">
+          <div className="bg-card rounded-xl border border-border p-8 mb-8 shadow-sm">
             <div className="flex items-center justify-center gap-3 mb-4">
               <Package className="h-6 w-6 text-accent" />
-              <span className="font-semibold">{t('order.orderNumber')}</span>
+              <span className="font-semibold text-lg">{t('order.orderNumber')}</span>
             </div>
-            <p className="text-2xl font-bold text-accent">{orderId}</p>
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-3xl font-black text-accent tracking-wider">{orderId}</p>
+            <p className="text-sm text-muted-foreground mt-4 font-medium">
               ভবিষ্যতের জন্য এটি সংরক্ষণ করুন
             </p>
           </div>
 
-          <div className="bg-secondary/50 rounded-xl p-6 mb-8 text-left">
-            <h3 className="font-semibold mb-4">পরবর্তী পদক্ষেপ কি?</h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li className="flex gap-2">
-                <span className="text-accent">•</span>
+          <div className="bg-secondary/30 rounded-2xl p-8 mb-10 text-left border border-secondary">
+            <h3 className="font-bold text-lg mb-6">পরবর্তী পদক্ষেপ কি?</h3>
+            <ul className="space-y-4 text-gray-600 font-medium">
+              <li className="flex gap-3">
+                <span className="text-accent font-bold">•</span>
                 আপনি SMS/ইমেলের মাধ্যমে একটি অর্ডার নিশ্চিতকরণ বার্তা পাবেন
               </li>
-              <li className="flex gap-2">
-                <span className="text-accent">•</span>
+              <li className="flex gap-3">
+                <span className="text-accent font-bold">•</span>
                 আমাদের টিম ২৪ ঘণ্টার মধ্যে আপনার অর্ডারটি প্রসেস করবে
               </li>
-              <li className="flex gap-2">
-                <span className="text-accent">•</span>
+              <li className="flex gap-3">
+                <span className="text-accent font-bold">•</span>
                 আপনার অর্ডারটি শিপ করা হলে আপনাকে জানানো হবে
               </li>
             </ul>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/shop">
-              <Button className="btn-accent">
-                {t('cart.continueShopping')}
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            </Link>
+          <div className="flex justify-center">
             <Link to="/">
-              <Button variant="outline">{t('common.back')} {t('nav.home')}</Button>
+              <Button className="btn-accent px-12 h-14 text-lg font-bold rounded-full shadow-lg hover:scale-105 transition-transform active:scale-95">
+                আরও অর্ডার করতে এখানে ক্লিক করুন
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </Button>
             </Link>
           </div>
         </div>
       </div>
-    </Layout>
+
+      {/* --- Minimalist Footer --- */}
+      <footer className="py-6 bg-[#8b4513] text-white text-center">
+        <p className="text-sm font-medium uppercase tracking-widest">
+          Copyright | {settings?.site_name || 'AS Organic Hub'}
+        </p>
+      </footer>
+    </div>
   );
 }

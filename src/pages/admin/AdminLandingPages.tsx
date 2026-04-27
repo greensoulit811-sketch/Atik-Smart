@@ -17,7 +17,7 @@ import { Switch } from '@/components/ui/switch';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Plus, Pencil, Trash2, ExternalLink, X, Copy, Palette, Video, ListChecks, ShieldCheck, Timer } from 'lucide-react';
+import { Plus, Pencil, Trash2, ExternalLink, X, Copy, Palette, Video, ListChecks, ShieldCheck, Timer, Image } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
@@ -45,6 +45,26 @@ const emptyForm = (): Omit<LandingPage, 'id' | 'created_at' | 'updated_at'> => (
   secondary_cta_text: 'Buy Now',
   countdown_end_date: null,
   offer_text: '',
+  section2_title: '',
+  section2_subtitle: '',
+  section2_image: '',
+  section2_badge: 'Premium Formula',
+  section2_cta_text: 'অর্ডার করতে চাই',
+  section2_phone_text: 'সরাসরি কল করুন',
+  section2_overlay_text: 'বীর্য/পাত ভয়\nআর নয়',
+  section3_title: '',
+  section3_badge: 'উপকারিতা',
+  section4_title: '',
+  section4_subtitle: '',
+  section4_image: '',
+  section4_cta_text: 'অর্ডার করতে চাই',
+  section5_image: '',
+  section6_title: '',
+  section6_subtitle: '',
+  section6_show_sticky_bar: true,
+  section6_sticky_text: 'সীমিত সময়ের জন্য ফ্রি ডেলিভারি!',
+  section6_sticky_countdown: '01:10:37',
+  section6_packages: [],
 });
 
 export default function AdminLandingPages() {
@@ -86,6 +106,26 @@ export default function AdminLandingPages() {
       secondary_cta_text: p.secondary_cta_text || 'Buy Now',
       countdown_end_date: p.countdown_end_date,
       offer_text: p.offer_text || '',
+      section2_title: p.section2_title || '',
+      section2_subtitle: p.section2_subtitle || '',
+      section2_image: p.section2_image || '',
+      section2_badge: p.section2_badge || 'Premium Formula',
+      section2_cta_text: p.section2_cta_text || 'অর্ডার করতে চাই',
+      section2_phone_text: p.section2_phone_text || 'সরাসরি কল করুন',
+      section2_overlay_text: p.section2_overlay_text || 'বীর্য/পাত ভয়\nআর নয়',
+      section3_title: p.section3_title || '',
+      section3_badge: p.section3_badge || 'উপকারিতা',
+      section4_title: p.section4_title || '',
+      section4_subtitle: p.section4_subtitle || '',
+      section4_image: p.section4_image || '',
+      section4_cta_text: p.section4_cta_text || 'অর্ডার করতে চাই',
+      section5_image: p.section5_image || '',
+      section6_title: p.section6_title || '',
+      section6_subtitle: p.section6_subtitle || '',
+      section6_show_sticky_bar: p.section6_show_sticky_bar ?? true,
+      section6_sticky_text: p.section6_sticky_text || 'সীমিত সময়ের জন্য ফ্রি ডেলিভারি!',
+      section6_sticky_countdown: p.section6_sticky_countdown || '01:10:37',
+      section6_packages: p.section6_packages || [],
     });
     setIsOpen(true);
   };
@@ -306,7 +346,232 @@ export default function AdminLandingPages() {
               </div>
             </section>
 
-            {/* 3. Video Showcase */}
+            {/* 3. Section 2 (Premium Showcase) */}
+            <section className="space-y-4 bg-orange-50/30 p-4 rounded-xl border border-orange-100">
+              <div className="flex items-center gap-2 border-b border-orange-100 pb-2">
+                <ListChecks className="h-5 w-5 text-orange-600" />
+                <h3 className="font-semibold uppercase text-sm tracking-wider text-orange-800">Section 2 (Feature Showcase)</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Badge Text</label>
+                    <Input value={form.section2_badge || ''} onChange={e => setForm(prev => ({ ...prev, section2_badge: e.target.value }))} placeholder="Premium Formula" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Title (Supports HTML/Multiline)</label>
+                    <textarea value={form.section2_title || ''} onChange={e => setForm(prev => ({ ...prev, section2_title: e.target.value }))} className="input-shop min-h-[80px]" placeholder="শারীরিক দুর্বলতা দূর করে..." />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Subtitle/Description</label>
+                    <textarea value={form.section2_subtitle || ''} onChange={e => setForm(prev => ({ ...prev, section2_subtitle: e.target.value }))} className="input-shop min-h-[80px]" />
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Section 2 Image</label>
+                    <ImageUpload value={form.section2_image || ''} onChange={v => setForm(prev => ({ ...prev, section2_image: v }))} folder="landing-pages" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Image Overlay Text</label>
+                    <textarea value={form.section2_overlay_text || ''} onChange={e => setForm(prev => ({ ...prev, section2_overlay_text: e.target.value }))} className="input-shop min-h-[60px]" placeholder="বীর্য/পাত ভয়..." />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">CTA Button Text</label>
+                      <Input value={form.section2_cta_text || ''} onChange={e => setForm(prev => ({ ...prev, section2_cta_text: e.target.value }))} />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Phone Button Text</label>
+                      <Input value={form.section2_phone_text || ''} onChange={e => setForm(prev => ({ ...prev, section2_phone_text: e.target.value }))} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* 4. Section 3 (Benefits List) */}
+            <section className="space-y-4 bg-zinc-900 p-6 rounded-xl border border-zinc-800 text-white">
+              <div className="flex items-center gap-2 border-b border-zinc-800 pb-3">
+                <ListChecks className="h-5 w-5 text-orange-500" />
+                <h3 className="font-semibold uppercase text-sm tracking-wider text-zinc-300">Section 3 (Effectiveness & Benefits)</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-zinc-400">Section Badge</label>
+                    <Input value={form.section3_badge || ''} onChange={e => setForm(prev => ({ ...prev, section3_badge: e.target.value }))} className="bg-zinc-800 border-zinc-700 text-white" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-zinc-400">Section Title</label>
+                    <Input value={form.section3_title || ''} onChange={e => setForm(prev => ({ ...prev, section3_title: e.target.value }))} className="bg-zinc-800 border-zinc-700 text-white" />
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium text-zinc-400">Benefit Points</label>
+                    <Button type="button" variant="outline" size="sm" onClick={() => addListItem<Benefit>('benefits', { text: '' })} className="border-zinc-700 hover:bg-zinc-800 text-zinc-300">
+                      <Plus className="h-3 w-3 mr-1" /> Add Point
+                    </Button>
+                  </div>
+                  <div className="space-y-2">
+                    {form.benefits.map((item, i) => (
+                      <div key={i} className="flex gap-2">
+                        <Input value={item.text} onChange={e => updateListItem<Benefit>('benefits', i, { text: e.target.value })} className="bg-zinc-800 border-zinc-700 text-white" placeholder="Benefit description..." />
+                        <Button variant="ghost" size="icon" onClick={() => removeListItem('benefits', i)} className="text-zinc-500 hover:text-red-400"><X className="h-4 w-4" /></Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* 5. Section 4 (Guarantee & Certificate) */}
+            <section className="space-y-4 bg-orange-50/20 p-6 rounded-xl border border-orange-100/50">
+              <div className="flex items-center gap-2 border-b border-orange-100 pb-3">
+                <ShieldCheck className="h-5 w-5 text-orange-600" />
+                <h3 className="font-semibold uppercase text-sm tracking-wider text-orange-800">Section 4 (Guarantee & Certificate)</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Guarantee Title</label>
+                    <textarea value={form.section4_title || ''} onChange={e => setForm(prev => ({ ...prev, section4_title: e.target.value }))} className="input-shop min-h-[80px]" placeholder="ফলাফল না পেলে মূল্য ফেরত..." />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Guarantee Subtitle</label>
+                    <textarea value={form.section4_subtitle || ''} onChange={e => setForm(prev => ({ ...prev, section4_subtitle: e.target.value }))} className="input-shop min-h-[100px]" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">CTA Button Text</label>
+                    <Input value={form.section4_cta_text || ''} onChange={e => setForm(prev => ({ ...prev, section4_cta_text: e.target.value }))} />
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Certificate/Showcase Image</label>
+                    <ImageUpload value={form.section4_image || ''} onChange={v => setForm(prev => ({ ...prev, section4_image: v }))} folder="landing-pages" />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* 6. Section 5 (Full Width Image) */}
+            <section className="space-y-4 bg-zinc-50 p-6 rounded-xl border border-zinc-200">
+              <div className="flex items-center gap-2 border-b border-zinc-200 pb-3">
+                <Image className="h-5 w-5 text-zinc-600" />
+                <h3 className="font-semibold uppercase text-sm tracking-wider text-zinc-800">Section 5 (Full Width Banner)</h3>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Banner Image</label>
+                <ImageUpload value={form.section5_image || ''} onChange={v => setForm(prev => ({ ...prev, section5_image: v }))} folder="landing-pages" />
+              </div>
+            </section>
+
+            {/* 7. Section 6 (Pricing & Packages) */}
+            <section className="space-y-4 bg-orange-50/10 p-6 rounded-xl border border-orange-100/30">
+              <div className="flex items-center gap-2 border-b border-orange-100 pb-3">
+                <Palette className="h-5 w-5 text-orange-600" />
+                <h3 className="font-semibold uppercase text-sm tracking-wider text-orange-800">Section 6 (Pricing & Packages)</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Pricing Title</label>
+                  <Input value={form.section6_title || ''} onChange={e => setForm(prev => ({ ...prev, section6_title: e.target.value }))} placeholder="প্যাকেজ ও প্রাইস" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Pricing Subtitle</label>
+                  <Input value={form.section6_subtitle || ''} onChange={e => setForm(prev => ({ ...prev, section6_subtitle: e.target.value }))} placeholder="আপনার পছন্দের প্যাকেজটি বেছে নিন" />
+                </div>
+              </div>
+              
+              <div className="pt-4 border-t border-orange-100/30 space-y-4">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-semibold text-orange-800">Show Sticky Offer Bar</label>
+                  <Switch checked={form.section6_show_sticky_bar} onCheckedChange={v => setForm(prev => ({ ...prev, section6_show_sticky_bar: v }))} />
+                </div>
+                {form.section6_show_sticky_bar && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Sticky Bar Text</label>
+                      <Input value={form.section6_sticky_text || ''} onChange={e => setForm(prev => ({ ...prev, section6_sticky_text: e.target.value }))} />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Countdown Text</label>
+                      <Input value={form.section6_sticky_countdown || ''} onChange={e => setForm(prev => ({ ...prev, section6_sticky_countdown: e.target.value }))} placeholder="01:10:37" />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-4 pt-4 border-t border-orange-100/30">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-semibold text-orange-800">Custom Packages (Cards)</label>
+                  <Button type="button" size="sm" variant="outline" onClick={() => addListItem('section6_packages', { name: '', price: 0, badge: '', is_best_value: false, image: '' })}>
+                    <Plus className="h-4 w-4 mr-2" /> Add Package
+                  </Button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {form.section6_packages.map((pkg, i) => (
+                    <div key={i} className="p-4 bg-white border border-orange-100 rounded-lg space-y-4 relative group">
+                      <button type="button" onClick={() => setForm(prev => ({ ...prev, section6_packages: prev.section6_packages.filter((_, idx) => idx !== i) }))} className="absolute top-2 right-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-gray-400">Package Name</label>
+                        <Input value={pkg.name} onChange={e => {
+                          const newPkgs = [...form.section6_packages];
+                          newPkgs[i].name = e.target.value;
+                          setForm(prev => ({ ...prev, section6_packages: newPkgs }));
+                        }} placeholder="Power Honey 6 Bottle" />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-gray-400">Package Image</label>
+                        <ImageUpload 
+                          value={pkg.image || ''} 
+                          onChange={url => {
+                            const newPkgs = [...form.section6_packages];
+                            newPkgs[i].image = url;
+                            setForm(prev => ({ ...prev, section6_packages: newPkgs }));
+                          }}
+                          folder="landing-pages"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase text-gray-400">Price</label>
+                          <Input type="number" value={pkg.price} onChange={e => {
+                            const newPkgs = [...form.section6_packages];
+                            newPkgs[i].price = Number(e.target.value);
+                            setForm(prev => ({ ...prev, section6_packages: newPkgs }));
+                          }} />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase text-gray-400">Badge Text</label>
+                          <Input value={pkg.badge} onChange={e => {
+                            const newPkgs = [...form.section6_packages];
+                            newPkgs[i].badge = e.target.value;
+                            setForm(prev => ({ ...prev, section6_packages: newPkgs }));
+                          }} placeholder="Best Value" />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                         <Switch checked={pkg.is_best_value} onCheckedChange={v => {
+                            const newPkgs = [...form.section6_packages];
+                            newPkgs[i].is_best_value = v;
+                            setForm(prev => ({ ...prev, section6_packages: newPkgs }));
+                         }} />
+                         <span className="text-xs font-medium">Highlight as Best Value?</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <p className="text-[10px] text-muted-foreground italic">* If you add custom packages here, they will be shown instead of the selected products.</p>
+            </section>
+
+            {/* 8. Video Showcase */}
             <section className="space-y-4">
               <div className="flex items-center gap-2 border-b pb-2">
                 <Video className="h-5 w-5 text-accent" />

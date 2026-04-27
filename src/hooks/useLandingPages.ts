@@ -44,6 +44,26 @@ export interface LandingPage {
   secondary_cta_text: string | null;
   countdown_end_date: string | null;
   offer_text: string | null;
+  section2_title: string | null;
+  section2_subtitle: string | null;
+  section2_image: string | null;
+  section2_badge: string | null;
+  section2_cta_text: string | null;
+  section2_phone_text: string | null;
+  section2_overlay_text: string | null;
+  section3_title: string | null;
+  section3_badge: string | null;
+  section4_title: string | null;
+  section4_subtitle: string | null;
+  section4_image: string | null;
+  section4_cta_text: string | null;
+  section5_image: string | null;
+  section6_title: string | null;
+  section6_subtitle: string | null;
+  section6_show_sticky_bar: boolean;
+  section6_sticky_text: string | null;
+  section6_sticky_countdown: string | null;
+  section6_packages: any[];
   created_at: string;
   updated_at: string;
 }
@@ -60,6 +80,26 @@ const mapLandingPage = (d: any): LandingPage => ({
   video_url: d.video_url || null,
   countdown_end_date: d.countdown_end_date || null,
   offer_text: d.offer_text || null,
+  section2_title: d.section2_title || null,
+  section2_subtitle: d.section2_subtitle || null,
+  section2_image: d.section2_image || null,
+  section2_badge: d.section2_badge || 'Premium Formula',
+  section2_cta_text: d.section2_cta_text || 'অর্ডার করতে চাই',
+  section2_phone_text: d.section2_phone_text || 'সরাসরি কল করুন',
+  section2_overlay_text: d.section2_overlay_text || 'বীর্য/পাত ভয়\nআর নয়',
+  section3_title: d.section3_title || null,
+  section3_badge: d.section3_badge || 'উপকারিতা',
+  section4_title: d.section4_title || null,
+  section4_subtitle: d.section4_subtitle || null,
+  section4_image: d.section4_image || null,
+  section4_cta_text: d.section4_cta_text || 'অর্ডার করতে চাই',
+  section5_image: d.section5_image || null,
+  section6_title: d.section6_title || null,
+  section6_subtitle: d.section6_subtitle || null,
+  section6_show_sticky_bar: d.section6_show_sticky_bar ?? true,
+  section6_sticky_text: d.section6_sticky_text || 'সীমিত সময়ের জন্য ফ্রি ডেলিভারি!',
+  section6_sticky_countdown: d.section6_sticky_countdown || '01:10:37',
+  section6_packages: d.section6_packages || [],
 });
 
 export const useLandingPages = () => {

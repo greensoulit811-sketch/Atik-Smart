@@ -80,20 +80,20 @@ const App = () => (
                   <DynamicFavicon />
                   <Routes>
                     {/* Public Store Routes - No auth required */}
-                    <Route path="/" element={<Index />} />
-                    <Route path="/shop" element={<ShopPage />} />
-                    <Route path="/categories" element={<CategoriesPage />} />
-                    <Route path="/category/:slug" element={<CategoryPage />} />
-                    <Route path="/product/:slug" element={<ProductDetailsPage />} />
-                    <Route path="/cart" element={<CartPage />} />
-                    <Route path="/checkout" element={<CheckoutPage />} />
+                    <Route path="/" element={<LandingPageView />} />
+                    <Route path="/shop" element={<LandingPageView />} />
+                    <Route path="/categories" element={<LandingPageView />} />
+                    <Route path="/category/:slug" element={<LandingPageView />} />
+                    <Route path="/product/:slug" element={<LandingPageView />} />
+                    <Route path="/cart" element={<LandingPageView />} />
+                    <Route path="/checkout" element={<LandingPageView />} />
                     <Route path="/order-success" element={<OrderSuccessPage />} />
-                    <Route path="/contact" element={<ContactPage />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/faq" element={<FAQPage />} />
-                    <Route path="/privacy" element={<PrivacyPage />} />
-                    <Route path="/terms" element={<TermsPage />} />
-                    <Route path="/track-order" element={<TrackOrderPage />} />
+                    <Route path="/contact" element={<LandingPageView />} />
+                    <Route path="/about" element={<LandingPageView />} />
+                    <Route path="/faq" element={<LandingPageView />} />
+                    <Route path="/privacy" element={<LandingPageView />} />
+                    <Route path="/terms" element={<LandingPageView />} />
+                    <Route path="/track-order" element={<LandingPageView />} />
                     <Route path="/lp/:slug" element={<LandingPageView />} />
 
                     {/* Admin Auth Routes - No protection */}
