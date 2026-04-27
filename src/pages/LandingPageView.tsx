@@ -21,12 +21,16 @@ const AutoImageSlider = ({ images }: { images: string[] }) => {
    const [index, setIndex] = useState(0);
 
    useEffect(() => {
-      if (images.length <= 1) return;
+      setIndex(0); // Reset index when images change
+   }, [images.length]);
+
+   useEffect(() => {
+      if (!images || images.length <= 1) return;
       const interval = setInterval(() => {
          setIndex((prev) => (prev + 1) % images.length);
       }, 3000);
       return () => clearInterval(interval);
-   }, [images]);
+   }, [images.length]); // Depend on length to avoid reset on every render if reference changes
 
    if (!images.length) return null;
 
@@ -237,14 +241,18 @@ export default function LandingPageView() {
             <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
                {/* Left: Product Image with Overlay */}
                <div className="relative group">
-                  <div className="aspect-square overflow-hidden rounded-2xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
-                     <img
-                        src={page.section2_image || selectedProduct?.images?.[0] || page.hero_image || 'https://images.unsplash.com/photo-1511499767350-a1590fdb7307?auto=format&fit=crop&q=80'}
-                        className="w-full h-full object-cover"
-                        alt="Product feature"
+                  <div className="aspect-square overflow-hidden rounded-2xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] relative">
+                     <AutoImageSlider 
+                        images={
+                           page.section2_images && page.section2_images.length > 0 
+                              ? page.section2_images 
+                              : (selectedProduct?.images && selectedProduct.images.length > 0 
+                                 ? selectedProduct.images 
+                                 : [page.section2_image || page.hero_image || 'https://images.unsplash.com/photo-1511499767350-a1590fdb7307?auto=format&fit=crop&q=80'])
+                        } 
                      />
                      {/* Overlay on Image */}
-                     <div className="absolute bottom-10 left-10 right-10">
+                     <div className="absolute bottom-10 left-10 right-10 z-20">
                         <div className="bg-black/80 backdrop-blur-md p-6 rounded-xl border border-white/20 inline-block">
                            <p className="text-white font-bold text-xl lg:text-2xl leading-tight whitespace-pre-wrap">
                               {page.section2_overlay_text || 'বীর্য/পাত ভয়\nআর নয়'}

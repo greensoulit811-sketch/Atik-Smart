@@ -65,6 +65,7 @@ const emptyForm = (): Omit<LandingPage, 'id' | 'created_at' | 'updated_at'> => (
   section6_sticky_text: 'সীমিত সময়ের জন্য ফ্রি ডেলিভারি!',
   section6_sticky_countdown: '01:10:37',
   section6_packages: [],
+  section2_images: [],
 });
 
 export default function AdminLandingPages() {
@@ -126,6 +127,7 @@ export default function AdminLandingPages() {
       section6_sticky_text: p.section6_sticky_text || 'সীমিত সময়ের জন্য ফ্রি ডেলিভারি!',
       section6_sticky_countdown: p.section6_sticky_countdown || '01:10:37',
       section6_packages: p.section6_packages || [],
+      section2_images: p.section2_images || [],
     });
     setIsOpen(true);
   };
@@ -369,8 +371,34 @@ export default function AdminLandingPages() {
                 </div>
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Section 2 Image</label>
+                    <label className="text-sm font-medium">Main Image (Static Fallback)</label>
                     <ImageUpload value={form.section2_image || ''} onChange={v => setForm(prev => ({ ...prev, section2_image: v }))} folder="landing-pages" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm font-medium">Slider Images (2-3 recommended)</label>
+                      <Button type="button" variant="outline" size="sm" onClick={() => setForm(prev => ({ ...prev, section2_images: [...(prev.section2_images || []), ''] }))}>
+                        <Plus className="h-3 w-3 mr-1" /> Add Slider Image
+                      </Button>
+                    </div>
+                    <div className="space-y-2">
+                      {(form.section2_images || []).map((img, i) => (
+                        <div key={i} className="flex gap-2 items-start">
+                          <div className="flex-1">
+                            <ImageUpload value={img} onChange={v => {
+                              const newImgs = [...(form.section2_images || [])];
+                              newImgs[i] = v;
+                              setForm(prev => ({ ...prev, section2_images: newImgs }));
+                            }} folder="landing-pages" />
+                          </div>
+                          <Button variant="ghost" size="icon" onClick={() => {
+                            const newImgs = [...(form.section2_images || [])];
+                            newImgs.splice(i, 1);
+                            setForm(prev => ({ ...prev, section2_images: newImgs }));
+                          }} className="text-destructive"><X className="h-4 w-4" /></Button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Image Overlay Text</label>
