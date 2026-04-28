@@ -244,15 +244,6 @@ export default function LandingPageView() {
             />
          </section>
 
-         {/* --- Centered CTA Button (Hidden on Mobile if following screenshot) --- */}
-
-         {/* <div className="hidden lg:flex justify-center py-8 sm:py-12 bg-white relative z-20 px-4">
-            <Button onClick={scrollToCheckout} className="min-h-[4rem] h-auto py-4 px-8 sm:px-12 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg sm:text-xl font-black transition-all shadow-2xl shadow-orange-200 flex items-center justify-center gap-3 group text-center">
-               অর্ডার করতে ক্লিক করুন
-               <ArrowRight className="h-6 w-6 group-hover:translate-x-1 transition-transform shrink-0" />
-            </Button>
-         </div> */}
-
          {/* --- Refined Premium Product Showcase (2nd Section) --- */}
          <section className="py-8 lg:py-32 px-4 bg-[#fffaf5] relative overflow-hidden">
             {/* Subtle Gradient Background */}
@@ -361,12 +352,9 @@ export default function LandingPageView() {
                      { text: 'শতভাগ খাঁটি মধু ও প্রাকৃতিক উপাদান, কোনো পার্শ্বপ্রতিক্রিয়া নেই।' },
                      { text: 'রক্ত সঞ্চালন ত্বরান্বিত করে, আকাঙ্ক্ষা বৃদ্ধি করে এবং মানসিক মুডকে প্রফুল্ল রাখে।' }
                   ]).map((benefit, i) => (
-                     <div key={i} className="group relative p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-md transition-all duration-500 hover:bg-white/[0.06] hover:border-orange-600/30 hover:-translate-y-1 overflow-hidden">
+                     <div key={i} className="group relative p-4 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-md transition-all duration-500 hover:bg-white/[0.06] hover:border-orange-600/30 hover:-translate-y-1 overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-orange-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 relative z-10">
-                           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-600 to-orange-800 flex items-center justify-center shrink-0 shadow-[0_10px_25px_-5px_rgba(234,88,12,0.5)] group-hover:scale-110 transition-transform duration-500">
-                              <CheckCircle2 className="h-7 w-7 text-white" />
-                           </div>
                            <p className="text-lg sm:text-xl lg:text-2xl font-medium text-zinc-300 leading-relaxed group-hover:text-white transition-colors">
                               {benefit.text}
                            </p>
@@ -522,8 +510,6 @@ export default function LandingPageView() {
             </div>
          )}
 
-
-
          {/* --- Simplified Luxury Checkout Section (Exact Match to Screenshot) --- */}
          <section id="lp-checkout" className="py-8 sm:py-16 px-4 bg-white relative overflow-hidden">
             <div className="max-w-[800px] mx-auto space-y-12 relative z-10">
@@ -638,26 +624,7 @@ export default function LandingPageView() {
 
             </div>
          </section>
-
-
-
-
-
-         {/* --- Minimalist Footer --- */}
-         {/* <footer className="py-10 bg-[#451a03] text-white text-center border-t border-white/5">
-            <div className="max-w-[1200px] mx-auto px-6 space-y-6">
-               <div className="flex justify-center gap-6 opacity-60">
-                  <Facebook className="h-5 w-5 cursor-pointer hover:text-orange-400 transition-colors" />
-                  <Instagram className="h-5 w-5 cursor-pointer hover:text-orange-400 transition-colors" />
-                  <Twitter className="h-5 w-5 cursor-pointer hover:text-orange-400 transition-colors" />
-                  <Youtube className="h-5 w-5 cursor-pointer hover:text-orange-400 transition-colors" />
-               </div>
-               <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-200/50">
-                  © {new Date().getFullYear()} | {settings?.site_name || 'AS Organic Hub'} | All Rights Reserved
-               </p>
-            </div>
-         </footer> */}
-
+         
       </div>
    );
 }
