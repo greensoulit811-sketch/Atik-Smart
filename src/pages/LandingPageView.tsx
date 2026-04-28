@@ -195,6 +195,37 @@ export default function LandingPageView() {
         .font-sans { font-family: 'Inter', sans-serif; }
         .letter-spacing-huge { letter-spacing: 0.2em; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        @keyframes float {
+           0%, 100% { transform: translateY(0px); }
+           50% { transform: translateY(-15px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        
+        @keyframes shimmer {
+           0% { left: -100%; }
+           100% { left: 100%; }
+        }
+        .shimmer-btn {
+           position: relative;
+           overflow: hidden;
+         }
+         .shimmer-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+               to right,
+               transparent,
+               rgba(255, 255, 255, 0.3),
+               transparent
+            );
+            transform: skewX(-25deg);
+            animation: shimmer 3s infinite;
+         }
       `}</style>
 
          {/* --- Header --- */}
@@ -233,77 +264,93 @@ export default function LandingPageView() {
             />
          </section>
 
-         {/* --- Centered CTA Button --- */}
-         <div className="flex justify-center py-8 sm:py-12 bg-white relative z-20 px-4">
+         {/* --- Centered CTA Button (Hidden on Mobile if following screenshot) --- */}
+
+         {/* <div className="hidden lg:flex justify-center py-8 sm:py-12 bg-white relative z-20 px-4">
             <Button onClick={scrollToCheckout} className="min-h-[4rem] h-auto py-4 px-8 sm:px-12 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg sm:text-xl font-black transition-all shadow-2xl shadow-orange-200 flex items-center justify-center gap-3 group text-center">
                অর্ডার করতে ক্লিক করুন
                <ArrowRight className="h-6 w-6 group-hover:translate-x-1 transition-transform shrink-0" />
             </Button>
-         </div>
+         </div> */}
 
-         {/* --- Premium Product Showcase (2nd Section) --- */}
-         <section className="py-20 lg:py-32 px-6 bg-[#fffaf5] relative overflow-hidden">
-            {/* Subtle Pattern Background */}
-            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+         {/* --- Refined Premium Product Showcase (2nd Section) --- */}
+         <section className="py-8 lg:py-32 px-4 bg-[#fffaf5] relative overflow-hidden">
+            {/* Subtle Gradient Background */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-50/30 to-transparent pointer-events-none"></div>
+            
+            <div className="max-w-[1200px] mx-auto relative z-10">
+               <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                  
+                  {/* Left: Content Section */}
+                  <div className="flex flex-col items-center text-center lg:items-start lg:text-left space-y-6">
+                     <div className="inline-block px-4 py-1.5 bg-[#fef3c7] text-[#92400e] text-[10px] font-black uppercase tracking-[0.2em] rounded-md shadow-sm border border-[#fcd34d]/30">
+                        {page.section2_badge || 'Premium Formula'}
+                     </div>
 
-            <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
-               {/* Left: Product Image with Overlay */}
-               <div className="relative group">
-                  <div className="aspect-square overflow-hidden rounded-2xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] relative">
-                     <AutoImageSlider 
-                        images={
-                           page.section2_images && page.section2_images.length > 0 
-                              ? page.section2_images 
-                              : (selectedProduct?.images && selectedProduct.images.length > 0 
-                                 ? selectedProduct.images 
-                                 : [page.section2_image || page.hero_image || 'https://images.unsplash.com/photo-1511499767350-a1590fdb7307?auto=format&fit=crop&q=80'])
-                        } 
-                     />
-                     {/* Overlay on Image */}
-                     <div className="absolute bottom-10 left-10 right-10 z-20">
-                        <div className="bg-black/80 backdrop-blur-md p-6 rounded-xl border border-white/20 inline-block">
-                           <p className="text-white font-bold text-xl lg:text-2xl leading-tight whitespace-pre-wrap">
-                              {page.section2_overlay_text || 'বীর্য/পাত ভয়\nআর নয়'}
-                           </p>
+                     <div className="space-y-5">
+                        <h2 className="text-2xl lg:text-6xl font-serif font-black text-[#451a03] leading-[1.6] tracking-tight whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: page.section2_title || 'শারীরিক দুর্বলতা দূর করে<br /><span class="text-orange-600 italic">ফিরে পান হারানো শক্তি!</span>' }}>
+                        </h2>
+                        <div className="w-20 h-1 bg-orange-600 mx-auto lg:mx-0 rounded-full"></div>
+                        <p className="text-base lg:text-xl text-[#78350f] leading-relaxed font-medium">
+                           {page.section2_subtitle || 'Power Honey হলো বিশেষভাবে তৈরি একটি হারবাল হানি, যা ১২ বোতল ফুল কোর্স হিসেবে উপলব্ধ।'}
+                        </p>
+                     </div>
+
+                     <div className="flex items-center gap-4 -py-4">
+                        <div className="flex text-orange-400">
+                           {[1, 2, 3, 4, 5].map((s) => <span key={s} className="text-xl">★</span>)}
+                        </div>
+                        <div className="py-1 px-2 lg:px-4 bg-white border border-orange-100 rounded-full text-[10px] font-bold text-gray-600 shadow-sm flex items-center gap-2">
+                           Trusted by 2500+ Customers
                         </div>
                      </div>
                   </div>
-                  {/* Decorative elements */}
-                  <div className="absolute -z-10 -top-6 -left-6 w-24 h-24 bg-orange-100 rounded-full blur-3xl opacity-50"></div>
-                  <div className="absolute -z-10 -bottom-6 -right-6 w-32 h-32 bg-orange-200 rounded-full blur-3xl opacity-30"></div>
-               </div>
 
-               {/* Right: Content */}
-               <div className="space-y-8">
-                  <div className="inline-block px-4 py-1.5 bg-orange-100 text-orange-700 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
-                     {page.section2_badge || 'Premium Formula'}
-                  </div>
-
-                  <div className="space-y-6">
-                     <h2 className="text-4xl lg:text-6xl font-serif font-black text-[#4a2c1d] leading-[1.1] tracking-tight whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: page.section2_title || 'শারীরিক দুর্বলতা দূর করে<br /><span class="text-orange-600 italic">ফিরে পান হারানো শক্তি!</span>' }}>
-                     </h2>
-                     <div className="w-20 h-1 bg-orange-600"></div>
-                     <p className="text-lg text-gray-600 leading-relaxed font-medium">
-                        {page.section2_subtitle || 'Power Honey হলো বিশেষভাবে তৈরি একটি হারবাল হানি, যা ১২ বোতল ফুল কোর্স হিসেবে উপলব্ধ।'}
-                     </p>
-                  </div>
-
-                  <div className="flex items-center gap-4 py-2">
-                     <div className="flex text-orange-400">
-                        {[1, 2, 3, 4, 5].map((s) => <span key={s} className="text-xl">★</span>)}
+                  {/* Right: Image Section */}
+                  <div className="relative group w-full max-w-md mx-auto lg:max-w-none animate-float">
+                     <div className="relative aspect-square overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:scale-[1.02] border-[10px] border-white bg-white">
+                        <AutoImageSlider 
+                           images={
+                              page.section2_images && page.section2_images.length > 0 
+                                 ? page.section2_images 
+                                 : (selectedProduct?.images && selectedProduct.images.length > 0 
+                                    ? selectedProduct.images 
+                                    : [page.section2_image || page.hero_image || 'https://images.unsplash.com/photo-1511499767350-a1590fdb7307?auto=format&fit=crop&q=80'])
+                           } 
+                        />
+                        {/* Elegant Glass Overlay */}
+                        <div className="absolute bottom-6 left-6 right-6 z-20">
+                           <div className="bg-black/40 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-xl">
+                              <p className="text-white font-bold text-xl lg:text-2xl leading-tight whitespace-pre-wrap">
+                                 {page.section2_overlay_text || 'বীর্য/পাত ভয়\nআর নয়'}
+                              </p>
+                              <div className="mt-3 flex items-center gap-2">
+                                 <div className="w-8 h-0.5 bg-orange-500 rounded-full"></div>
+                                 <Zap className="h-4 w-4 text-orange-400 fill-orange-400" />
+                              </div>
+                           </div>
+                        </div>
                      </div>
-                     <div className="px-3 py-1 bg-white border border-orange-100 rounded-full text-[10px] font-bold text-gray-500 uppercase tracking-wider shadow-sm">
-                        Trusted by 2500+ Customers
-                     </div>
+                     {/* Decorative background glow (Very subtle) */}
+                     <div className="absolute -z-10 -top-6 -left-6 w-32 h-32 bg-orange-100 rounded-full blur-3xl opacity-40"></div>
+                     <div className="absolute -z-10 -bottom-6 -right-6 w-40 h-40 bg-orange-200 rounded-full blur-3xl opacity-20"></div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                     <Button onClick={scrollToCheckout} className="min-h-[4rem] h-auto py-4 px-10 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-bold transition-all shadow-lg shadow-orange-200 flex items-center justify-center gap-3 group text-center">
+                  {/* Bottom: CTA Buttons */}
+                  <div className="w-full lg:col-span-2 flex flex-col sm:flex-row items-center justify-center gap-4 -pt-10 lg:pt-0">
+                     <Button 
+                        onClick={scrollToCheckout} 
+                        className="shimmer-btn w-full max-w-[280px] min-h-[3.5rem] bg-[#c2410c] hover:bg-[#a6340a] text-white rounded-lg text-lg font-black transition-all flex items-center justify-center gap-3 group shadow-xl shadow-orange-900/10"
+                     >
                         {page.section2_cta_text || 'অর্ডার করতে চাই'}
-                        <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform shrink-0" />
+                        <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                      </Button>
-                     <a href={`tel:${settings?.phone}`} className="min-h-[4rem] h-auto py-4 px-10 border-2 border-orange-600 text-orange-600 hover:bg-orange-50 rounded-lg text-lg font-bold flex items-center justify-center gap-3 transition-colors text-center">
-                        <Phone className="h-5 w-5 shrink-0" />
+                     
+                     <a 
+                        href={`tel:${settings?.phone}`} 
+                        className="w-full max-w-[280px] min-h-[3.5rem] border-2 border-[#ea580c] text-[#ea580c] hover:bg-orange-50 rounded-lg text-lg font-bold flex items-center justify-center gap-3 transition-colors"
+                     >
+                        <Phone className="h-5 w-5" />
                         {page.section2_phone_text || 'সরাসরি কল করুন'}
                      </a>
                   </div>
@@ -312,21 +359,21 @@ export default function LandingPageView() {
          </section>
 
          {/* --- Effectiveness & Benefits (3rd Section) --- */}
-         <section className="py-12 sm:py-24 px-6 bg-[#0a0a0a] text-white relative overflow-hidden">
+         <section className="py-8 sm:py-24 px-4 bg-[#0a0a0a] text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-900/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 
             <div className="max-w-[1000px] mx-auto relative z-10 space-y-20">
                <div className="text-center space-y-8">
-                  <div className="inline-block px-5 py-2 bg-gradient-to-r from-orange-600/20 to-orange-900/20 text-orange-400 text-[11px] font-black uppercase tracking-[0.25em] rounded-full border border-orange-600/30 backdrop-blur-sm">
+                  <div className="inline-block px-5 py-2 bg-gradient-to-r from-orange-600/20 to-orange-900/20 text-orange-400 text-[10px] font-black uppercase tracking-[0.25em] rounded-full border border-orange-600/30 backdrop-blur-sm">
                      {page.section3_badge || 'উপকারিতা'}
                   </div>
-                  <h2 className="text-3xl sm:text-4xl lg:text-7xl font-serif font-black uppercase tracking-tight leading-[1.1] px-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
+                  <h2 className="text-2xl sm:text-3xl lg:text-7xl font-serif font-black uppercase tracking-tight leading-[1.1] px-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
                      {page.section3_title || 'এর কার্যকারিতা ও উপকারিতা'}
                   </h2>
                </div>
 
-               <div className="grid grid-cols-1 gap-6 px-2">
+               <div className="grid grid-cols-1 gap-3 -py-8">
                   {(page.benefits.length > 0 ? page.benefits : [
                      { text: 'বিশেষ মুহূর্তে দুর্বলতা চিরতরে দূর করে এবং স্ত্রীর কাছে আপনাকে করে তোলে সেরা পুরুষ।' },
                      { text: 'পুরুষত্ব ধরে রাখে এবং শারীরিক শক্তি বাড়ায়।' },
@@ -348,8 +395,8 @@ export default function LandingPageView() {
                   ))}
                </div>
 
-               <div className="text-center pt-8">
-                  <Button onClick={scrollToCheckout} className="h-16 px-16 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
+               <div className="text-center">
+                  <Button onClick={scrollToCheckout} className="h-14 px-16 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
                      অর্ডার করতে চাই
                   </Button>
                </div>
@@ -357,18 +404,18 @@ export default function LandingPageView() {
          </section>
 
          {/* --- Quality Guarantee & Certificate (4th Section) --- */}
-         <section className="py-12 sm:py-24 px-6 bg-[#fffaf5] relative overflow-hidden">
+         <section className="py-8 sm:py-24 px-6 bg-[#fffaf5] relative overflow-hidden">
             {/* Dot pattern background */}
             <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
 
             <div className="max-w-[1000px] mx-auto relative z-10 space-y-12 text-center">
                <div className="flex justify-center">
-                  <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center border border-orange-200">
-                     <ShieldCheck className="h-8 w-8 text-orange-600" />
+                  <div className="w-14 h-14 rounded-full bg-orange-100 flex items-center justify-center border border-orange-200">
+                     <ShieldCheck className="h-6 w-6 text-orange-600" />
                   </div>
                </div>
 
-               <div className="space-y-6">
+               <div className="space-y-4">
                   <h2 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-black text-[#a62626] leading-tight tracking-tight px-4">
                      {page.section4_title || 'ফলাফল না পেলে মূল্য ফেরত দেওয়া হবে!'}
                   </h2>
@@ -381,8 +428,8 @@ export default function LandingPageView() {
 
                <div className="relative inline-block group">
                   <div className="absolute -inset-4 bg-orange-200/20 blur-2xl rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="relative p-3 bg-[#8c6b4f] rounded-lg shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
-                     <div className="bg-white p-4 rounded shadow-inner">
+                  <div className="relative p-1 bg-[#8c6b4f] rounded-lg shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
+                     <div className="bg-white p-1.5 rounded shadow-inner">
                         <img
                            src={page.section4_image || 'https://images.unsplash.com/photo-1589330273594-fade1ee91647?q=80&w=800'}
                            className="max-w-full h-auto rounded-sm"
@@ -392,8 +439,8 @@ export default function LandingPageView() {
                   </div>
                </div>
 
-               <div className="pt-6">
-                  <Button onClick={scrollToCheckout} className="h-16 px-12 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
+               <div className="-pt-4">
+                  <Button onClick={scrollToCheckout} className="h-14 px-12 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
                      {page.section4_cta_text || 'অর্ডার করতে চাই'}
                      <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
                   </Button>
@@ -413,8 +460,8 @@ export default function LandingPageView() {
          )}
 
          {/* --- Pricing & Packages (6th Section) --- */}
-         <section className="py-12 sm:py-24 px-6 bg-[#fff9f2] relative overflow-hidden">
-            <div className="max-w-[1200px] mx-auto space-y-10 sm:space-y-16 relative z-10">
+         <section className="py-8 sm:py-16 px-4 bg-[#fff9f2] relative overflow-hidden">
+            <div className="max-w-[1200px] mx-auto space-y-2 sm:space-y-16 relative z-10">
                <div className="text-center space-y-4">
                   <h2 className="text-3xl lg:text-5xl font-serif font-black text-[#a64d1d] uppercase tracking-tight">
                      {page.section6_title || 'প্যাকেজ ও প্রাইস'}
@@ -487,17 +534,20 @@ export default function LandingPageView() {
 
 
          {/* --- Simplified Luxury Checkout Section (Exact Match to Screenshot) --- */}
-         <section id="lp-checkout" className="py-24 px-6 bg-white relative overflow-hidden">
+         <section id="lp-checkout" className="py-8 sm:py-16 px-4 bg-white relative overflow-hidden">
             <div className="max-w-[800px] mx-auto space-y-12 relative z-10">
 
                {/* Main Header */}
-               <div className="w-full py-4 bg-orange-50/50 border-2 border-[#ea580c] rounded-lg text-center">
-                  <h2 className="text-xl lg:text-3xl font-black text-gray-800">অর্ডার করতে আপনার তথ্য দিয়ে নিচের ফরমটি পূরণ করুন</h2>
+               <div className="w-full py-6 bg-[#fffaf5] border-2 border-[#ea580c] rounded-2xl text-center shadow-xl shadow-orange-900/[0.03] px-4">
+                  <h2 className="text-2xl lg:text-4xl font-serif font-black text-[#451a03] leading-tight">অর্ডার করতে আপনার তথ্য দিয়ে নিচের ফরমটি পূরণ করুন</h2>
                </div>
 
                {/* Product Selection */}
                <div className="space-y-6">
-                  <h3 className="text-lg font-bold text-gray-700">পরিমাণ সিলেক্ট করুন</h3>
+                  <h3 className="text-xl font-black text-gray-800 flex items-center gap-3">
+                     <span className="w-8 h-8 bg-[#ea580c] text-white rounded-full flex items-center justify-center text-sm">1</span>
+                     প্যাকেজ সিলেক্ট করুন
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                      {(page.section6_packages.length > 0 ? page.section6_packages : products.map(p => ({
                         id: p.id,
@@ -547,8 +597,11 @@ export default function LandingPageView() {
                </div>
 
                {/* Checkout Form */}
-               <div className="space-y-8">
-                  <h3 className="text-xl lg:text-2xl font-black text-gray-800 border-b-2 border-orange-100 pb-2">অর্ডার করতে ফর্মটি পূরণ করতে হবে</h3>
+               <div className="space-y-8 bg-[#fffaf5] p-6 lg:p-10 rounded-3xl border border-orange-100 shadow-2xl shadow-orange-900/[0.02]">
+                  <h3 className="text-xl lg:text-2xl font-black text-[#451a03] border-b-2 border-orange-200 pb-4 flex items-center gap-3">
+                     <span className="w-8 h-8 bg-[#ea580c] text-white rounded-full flex items-center justify-center text-sm">2</span>
+                     শিপিং তথ্য প্রদান করুন
+                  </h3>
 
                   <form onSubmit={handleSubmit} className="space-y-6">
                      <div className="space-y-2">
@@ -595,11 +648,19 @@ export default function LandingPageView() {
 
 
 
-         {/* --- Minimalist Footer (Exact Match to Image) --- */}
-         <footer className="py-4 bg-[#8b4513] text-white text-center">
-            <p className="text-xs font-medium uppercase tracking-widest">
-               Copyright | {settings?.site_name || 'AS Organic Hub'}
-            </p>
+         {/* --- Minimalist Footer --- */}
+         <footer className="py-10 bg-[#451a03] text-white text-center border-t border-white/5">
+            <div className="max-w-[1200px] mx-auto px-6 space-y-6">
+               <div className="flex justify-center gap-6 opacity-60">
+                  <Facebook className="h-5 w-5 cursor-pointer hover:text-orange-400 transition-colors" />
+                  <Instagram className="h-5 w-5 cursor-pointer hover:text-orange-400 transition-colors" />
+                  <Twitter className="h-5 w-5 cursor-pointer hover:text-orange-400 transition-colors" />
+                  <Youtube className="h-5 w-5 cursor-pointer hover:text-orange-400 transition-colors" />
+               </div>
+               <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-200/50">
+                  © {new Date().getFullYear()} | {settings?.site_name || 'AS Organic Hub'} | All Rights Reserved
+               </p>
+            </div>
          </footer>
 
       </div>
