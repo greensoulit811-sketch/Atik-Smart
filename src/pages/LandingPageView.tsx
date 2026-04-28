@@ -179,7 +179,15 @@ export default function LandingPageView() {
                price: effectivePrice, variant_id: null, variant_info: null,
             }],
          });
-         navigate(`/order-success?orderId=${orderNumber}`);
+         navigate(`/order-success?orderId=${orderNumber}`, { 
+            state: { 
+               total, 
+               currency: settings?.currency_code || 'BDT', 
+               items: [{ id: realProductId, quantity, price: effectivePrice }],
+               customer_phone: formData.phone,
+               customer_email: formData.email
+            } 
+         });
       } catch (error) { }
    };
 

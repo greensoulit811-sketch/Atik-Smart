@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle, Package, ArrowRight, User, ShoppingBag, Search } from 'lucide-react';
 import { useSiteSettings } from '@/contexts/SiteSettingsContext';
 import { Button } from '@/components/ui/button';
@@ -9,28 +9,48 @@ import { trackPurchase } from '@/lib/facebook-pixel';
 export default function OrderSuccessPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const orderId = searchParams.get('orderId') || 'N/A';
   const { t, settings } = useSiteSettings();
   const { data: order } = useOrderByNumber(orderId);
   const trackedRef = useRef(false);
 
   useEffect(() => {
-    if (order && !trackedRef.current) {
+    if (trackedRef.current) return;
+
+    // Try to get data from navigation state first (immediate, no RLS issues)
+    if (location.state && location.state.total) {
+      trackPurchase({
+        orderId: orderId,
+        value: location.state.total,
+        currency: location.state.currency || settings.currency_code || 'BDT',
+        contents: location.state.items.map((item: any) => ({
+          id: item.id || 'unknown',
+          quantity: item.quantity || 1,
+          item_price: item.price || 0
+        })),
+        email: location.state.customer_email || undefined,
+        phone: location.state.customer_phone || undefined
+      });
+      trackedRef.current = true;
+    } 
+    // Fallback to fetched order if no state (e.g. page refresh)
+    else if (order) {
       trackPurchase({
         orderId: order.order_number,
         value: order.total,
-        currency: settings.currency_code,
-        contents: order.order_items.map(item => ({
+        currency: settings.currency_code || 'BDT',
+        contents: order.order_items?.map(item => ({
           id: item.product_id || 'unknown',
           quantity: item.quantity,
           item_price: item.price
-        })),
+        })) || [],
         email: order.customer_email || undefined,
         phone: order.customer_phone
       });
       trackedRef.current = true;
     }
-  }, [order, settings.currency_code]);
+  }, [order, location.state, orderId, settings.currency_code]);
 
   return (
     <div className="min-h-screen bg-white">
