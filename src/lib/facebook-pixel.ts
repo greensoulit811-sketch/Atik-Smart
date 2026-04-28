@@ -171,9 +171,7 @@ function trackEvent(
     if (!window.location.pathname.startsWith('/admin')) {
       try {
         const eventParams = { ...params };
-        if (testEventCode) {
-          eventParams.test_event_code = testEventCode;
-        }
+        // We don't send test_event_code via browser pixel, only via CAPI!
         if (typeof window.fbq === 'function') {
           window.fbq('track', eventName, eventParams, { eventID: eventId });
           console.log(`[FB Pixel] Event: ${eventName}`, { eventId });
