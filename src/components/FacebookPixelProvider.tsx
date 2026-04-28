@@ -13,13 +13,11 @@ function hasConsent(): boolean {
 export function FacebookPixelProvider({ children }: { children: React.ReactNode }) {
   const { settings } = useSiteSettings();
   const location = useLocation();
-  const initializedRef = useRef(false);
+  const initializedPixelIdRef = useRef<string | null>(null);
   const lastPathRef = useRef<string>('');
 
   // Initialize pixel when settings are loaded
   useEffect(() => {
-    if (initializedRef.current) return;
-    
     // Don't load on admin routes
     if (location.pathname.startsWith('/admin')) return;
 
@@ -29,6 +27,9 @@ export function FacebookPixelProvider({ children }: { children: React.ReactNode 
     // Check consent if required
     if (settings.cookie_consent_enabled && !hasConsent()) return;
 
+    // If already initialized with the SAME pixel ID, do nothing
+    if (initializedPixelIdRef.current === settings.fb_pixel_id) return;
+
     try {
       const success = initFacebookPixel(
         settings.fb_pixel_id,
@@ -37,7 +38,7 @@ export function FacebookPixelProvider({ children }: { children: React.ReactNode 
       );
 
       if (success) {
-        initializedRef.current = true;
+        initializedPixelIdRef.current = settings.fb_pixel_id;
         trackPageView();
         lastPathRef.current = location.pathname;
       }
@@ -48,7 +49,7 @@ export function FacebookPixelProvider({ children }: { children: React.ReactNode 
 
   // Track page views on route change
   useEffect(() => {
-    if (!initializedRef.current) return;
+    if (!initializedPixelIdRef.current) return;
     if (location.pathname.startsWith('/admin')) return;
     if (location.pathname === lastPathRef.current) return;
 

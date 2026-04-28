@@ -91,7 +91,7 @@ export function initFacebookPixel(
   testCode?: string | null,
   enableCapi?: boolean
 ): boolean {
-  if (pixelInitialized) return true;
+  if (pixelInitialized && pixelId === id) return true;
   if (!id || !/^\d{10,20}$/.test(id)) {
     console.warn('[FB Pixel] Invalid Pixel ID');
     return false;
@@ -112,26 +112,27 @@ export function initFacebookPixel(
     const b = document;
     const e = 'script';
     
-    if (f.fbq) return true;
+    if (!f.fbq) {
+      const n: any = (f.fbq = function () {
+        n.callMethod
+          ? n.callMethod.apply(n, arguments)
+          : n.queue.push(arguments);
+      });
 
-    const n: any = (f.fbq = function () {
-      n.callMethod
-        ? n.callMethod.apply(n, arguments)
-        : n.queue.push(arguments);
-    });
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = true;
+      n.version = '2.0';
+      n.queue = [];
 
-    if (!f._fbq) f._fbq = n;
-    n.push = n;
-    n.loaded = true;
-    n.version = '2.0';
-    n.queue = [];
+      const t = b.createElement(e) as HTMLScriptElement;
+      t.async = true;
+      t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      b.head.appendChild(t);
+    }
 
-    const t = b.createElement(e) as HTMLScriptElement;
-    t.async = true;
-    t.src = 'https://connect.facebook.net/en_US/fbevents.js';
-    b.head.appendChild(t);
-
-    // Initialize pixel
+    // ALWAYS Initialize pixel, even if fbq was already present
+    // This allows switching pixel IDs without hard reloading the SPA
     window.fbq('init', pixelId);
     
     pixelInitialized = true;
@@ -171,7 +172,9 @@ function trackEvent(
     if (!window.location.pathname.startsWith('/admin')) {
       try {
         const eventParams = { ...params };
-        // We don't send test_event_code via browser pixel, only via CAPI!
+        if (testEventCode) {
+          eventParams.test_event_code = testEventCode;
+        }
         if (typeof window.fbq === 'function') {
           window.fbq('track', eventName, eventParams, { eventID: eventId });
           console.log(`[FB Pixel] Event: ${eventName}`, { eventId });
