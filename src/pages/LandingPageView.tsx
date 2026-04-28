@@ -67,7 +67,7 @@ export default function LandingPageView() {
    const navigate = useNavigate();
    
    // Fetch all landing pages to find the first one if no slug is provided
-   const { data: allPages } = useQuery({
+   const { data: allPages, isLoading: isPagesLoading } = useQuery({
       queryKey: ['landing_pages_list'],
       queryFn: async () => {
          const { data, error } = await supabase.from('landing_pages').select('slug').limit(1);
@@ -78,7 +78,8 @@ export default function LandingPageView() {
    });
 
    const slug = paramSlug || allPages?.[0]?.slug || '';
-   const { data: page, isLoading } = useLandingPage(slug);
+   const { data: page, isLoading: isPageLoading } = useLandingPage(slug);
+   const isLoading = (!paramSlug && isPagesLoading) || isPageLoading || (!page && !slug);
    const { formatCurrency, settings } = useSiteSettings();
    const { user } = useAuth();
    const createOrder = useCreateOrder();
