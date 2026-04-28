@@ -218,7 +218,19 @@ export default function CheckoutPage() {
       }
 
       clearCart();
-      navigate(`/order-success?orderId=${orderNumber}`);
+      navigate(`/order-success?orderId=${orderNumber}`, {
+        state: {
+          total,
+          currency: settings.currency_code || 'BDT',
+          items: items.map((item) => ({
+            id: item.id.includes('-') && item.variantId ? item.id.replace(`-${item.variantId}`, '') : item.id,
+            quantity: item.quantity,
+            price: item.salePrice ?? item.price,
+          })),
+          customer_email: null,
+          customer_phone: formData.phone
+        }
+      });
     } catch (error) {
       // Error is handled by the mutation
     }
