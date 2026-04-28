@@ -328,7 +328,7 @@ export default function LandingPageView() {
                      
                      <a 
                         href={`tel:${settings?.phone}`} 
-                        className="w-full max-w-[280px] min-h-[3.5rem] border-2 border-[#ea580c] text-[#ea580c] hover:bg-orange-50 rounded-lg text-lg font-bold flex items-center justify-center gap-3 transition-colors"
+                        className="w-full max-w-[380px] min-h-[3.5rem] border-2 border-[#ea580c] text-[#ea580c] hover:bg-orange-50 rounded-lg text-lg font-bold flex items-center justify-center gap-3 transition-colors"
                      >
                         <Phone className="h-5 w-5" />
                         {page.section2_phone_text || 'সরাসরি কল করুন'}
@@ -376,7 +376,7 @@ export default function LandingPageView() {
                </div>
 
                <div className="text-center">
-                  <Button onClick={scrollToCheckout} className="h-14 px-16 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
+                  <Button onClick={scrollToCheckout} className="h-14 px-16 max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
                      অর্ডার করতে চাই
                   </Button>
                </div>
@@ -420,7 +420,7 @@ export default function LandingPageView() {
                </div>
 
                <div className="-pt-4">
-                  <Button onClick={scrollToCheckout} className="h-14 px-12 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
+                  <Button onClick={scrollToCheckout} className="h-14 px-12 max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
                      {page.section4_cta_text || 'অর্ডার করতে চাই'}
                      <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
                   </Button>
