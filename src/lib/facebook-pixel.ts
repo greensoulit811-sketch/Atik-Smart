@@ -167,18 +167,30 @@ function trackEvent(
   const eventId = options?.eventId || generateEventId();
 
   // Browser pixel
-  if (isPixelReady() && !window.location.pathname.startsWith('/admin')) {
-    try {
-      const eventParams = { ...params };
-      if (testEventCode) {
-        eventParams.test_event_code = testEventCode;
+  // Browser pixel
+  const sendBrowserEvent = (retries = 0) => {
+    if (!window.location.pathname.startsWith('/admin')) {
+      try {
+        const eventParams = { ...params };
+        if (testEventCode) {
+          eventParams.test_event_code = testEventCode;
+        }
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', eventName, eventParams, { eventID: eventId });
+          console.log(`[FB Pixel] Event: ${eventName}`, { eventId });
+        } else if (retries < 10) {
+          console.warn(`[FB Pixel] Not ready yet, queuing ${eventName} (attempt ${retries + 1})`);
+          setTimeout(() => sendBrowserEvent(retries + 1), 1000); // Retry after 1 second, max 10 times
+        } else {
+          console.warn(`[FB Pixel] Gave up waiting for pixel to initialize for ${eventName}`);
+        }
+      } catch (error) {
+        console.warn(`[FB Pixel] Failed to track ${eventName}:`, error);
       }
-      window.fbq('track', eventName, eventParams, { eventID: eventId });
-      console.log(`[FB Pixel] Event: ${eventName}`, { eventId });
-    } catch (error) {
-      console.warn(`[FB Pixel] Failed to track ${eventName}:`, error);
     }
-  }
+  };
+
+  sendBrowserEvent(0);
 
   // Server-side CAPI (fire-and-forget, never blocks)
   if (!options?.skipCapi) {
