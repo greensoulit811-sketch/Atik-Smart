@@ -230,7 +230,7 @@ export default function LandingPageView() {
 
          {/* --- Header --- */}
          <header className="sticky top-0 z-[100] bg-white/80 backdrop-blur-md border-b border-gray-100">
-            <div className="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
+            <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
                <div className="flex-1 flex gap-6 text-[11px] font-bold uppercase tracking-widest hidden lg:flex">
                   <a href="/" className="hover:opacity-50 transition-opacity">Home</a>
                   <a href="/about" className="hover:opacity-50 transition-opacity">About</a>
@@ -319,7 +319,7 @@ export default function LandingPageView() {
                            } 
                         />
                         {/* Elegant Glass Overlay */}
-                        <div className="absolute bottom-6 left-6 right-6 z-20">
+                        {/* <div className="absolute bottom-6 left-6 right-6 z-20">
                            <div className="bg-black/40 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-xl">
                               <p className="text-white font-bold text-xl lg:text-2xl leading-tight whitespace-pre-wrap">
                                  {page.section2_overlay_text || 'বীর্য/পাত ভয়\nআর নয়'}
@@ -329,7 +329,7 @@ export default function LandingPageView() {
                                  <Zap className="h-4 w-4 text-orange-400 fill-orange-400" />
                               </div>
                            </div>
-                        </div>
+                        </div> */}
                      </div>
                      {/* Decorative background glow (Very subtle) */}
                      <div className="absolute -z-10 -top-6 -left-6 w-32 h-32 bg-orange-100 rounded-full blur-3xl opacity-40"></div>
