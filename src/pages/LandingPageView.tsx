@@ -320,7 +320,7 @@ export default function LandingPageView() {
                   <div className="w-full lg:col-span-2 flex flex-col sm:flex-row items-center justify-center gap-4 -pt-10 lg:pt-0">
                      <Button 
                         onClick={scrollToCheckout} 
-                        className="shimmer-btn w-full max-w-[280px] min-h-[3.5rem] bg-[#c2410c] hover:bg-[#a6340a] text-white rounded-lg text-lg font-black transition-all flex items-center justify-center gap-3 group shadow-xl shadow-orange-900/10"
+                        className="shimmer-btn w-full max-w-[380px] min-h-[3.5rem] bg-[#c2410c] hover:bg-[#a6340a] text-white rounded-lg text-lg font-black transition-all flex items-center justify-center gap-3 group shadow-xl shadow-orange-900/10"
                      >
                         {page.section2_cta_text || 'অর্ডার করতে চাই'}
                         <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
