@@ -5,6 +5,7 @@ import { useSiteSettings } from '@/contexts/SiteSettingsContext';
 import { Button } from '@/components/ui/button';
 import { useOrderByNumber } from '@/hooks/useOrders';
 import { trackPurchase } from '@/lib/facebook-pixel';
+import { toast } from 'sonner';
 
 export default function OrderSuccessPage() {
   const [searchParams] = useSearchParams();
@@ -20,6 +21,7 @@ export default function OrderSuccessPage() {
 
     // Try to get data from navigation state first (immediate, no RLS issues)
     if (location.state && location.state.total) {
+      console.log('[OrderSuccess] Tracking Purchase from state:', location.state);
       trackPurchase({
         orderId: orderId,
         value: location.state.total,
@@ -33,7 +35,8 @@ export default function OrderSuccessPage() {
         phone: location.state.customer_phone || undefined
       });
       trackedRef.current = true;
-    } 
+      toast.success(`Facebook Purchase Event Fired! (Order: ${orderId})`);
+    }
     // Fallback to fetched order if no state (e.g. page refresh)
     else if (order) {
       trackPurchase({
