@@ -71,6 +71,7 @@ async function sendCapiEvent(
         event_source_url: params.eventSourceUrl || window.location.href,
         user_data: userData,
         custom_data: params.customData || {},
+        test_mode: !!testEventCode,
       },
     });
 
@@ -128,9 +129,7 @@ export function initFacebookPixel(
     const t = b.createElement(e) as HTMLScriptElement;
     t.async = true;
     t.src = 'https://connect.facebook.net/en_US/fbevents.js';
-    
-    const s = b.getElementsByTagName(e)[0];
-    s?.parentNode?.insertBefore(t, s);
+    b.head.appendChild(t);
 
     // Initialize pixel
     window.fbq('init', pixelId);
