@@ -420,7 +420,7 @@ export default function LandingPageView() {
                </div>
 
                <div className="-pt-4">
-                  <Button onClick={scrollToCheckout} className="h-14 px-12 max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
+                  <Button onClick={scrollToCheckout} className="h-14 px-12 w-full max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
                      {page.section4_cta_text || 'অর্ডার করতে চাই'}
                      <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
                   </Button>
