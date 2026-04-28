@@ -376,7 +376,7 @@ export default function LandingPageView() {
                </div>
 
                <div className="text-center">
-                  <Button onClick={scrollToCheckout} className="h-14 px-16 max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
+                  <Button onClick={scrollToCheckout} className="h-14 px-16 w-full max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
                      অর্ডার করতে চাই
                   </Button>
                </div>
