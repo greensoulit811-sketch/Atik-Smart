@@ -226,35 +226,15 @@ export default function LandingPageView() {
             transform: skewX(-25deg);
             animation: shimmer 3s infinite;
          }
+         @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+         }
+         .animate-pop { animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
       `}</style>
 
          {/* --- Header --- */}
-         <header className="sticky top-0 z-[100] bg-white/80 backdrop-blur-md border-b border-gray-100">
-            <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
-               <div className="flex-1 flex gap-6 text-[11px] font-bold uppercase tracking-widest hidden lg:flex">
-                  <a href="/" className="hover:opacity-50 transition-opacity">Home</a>
-                  <a href="/about" className="hover:opacity-50 transition-opacity">About</a>
-               </div>
-
-               <div className="flex-1 flex justify-center px-2">
-                  <span className="text-lg sm:text-2xl font-black font-serif uppercase tracking-tight leading-none text-center">
-                     {settings?.site_name?.split(' ').map((word, i) => (
-                        <span key={i} className={i % 2 !== 0 ? 'italic font-normal' : ''}>{word} </span>
-                     ))}
-                  </span>
-               </div>
-
-               <div className="flex-1 flex justify-end items-center gap-3 sm:gap-6">
-                  <button className="hover:scale-110 transition-transform p-1" onClick={() => navigate('/admin/login')}>
-                     <User className="h-5 w-5 stroke-[1.5px]" />
-                  </button>
-                  <button className="hover:scale-110 transition-transform p-1" onClick={scrollToCheckout}>
-                     <ShoppingBag className="h-5 w-5 stroke-[1.5px]" />
-                  </button>
-               </div>
-            </div>
-         </header>
-
          {/* --- Hero Section (Single Image) --- */}
          <section className="w-full bg-white">
             <img
@@ -460,44 +440,55 @@ export default function LandingPageView() {
          )}
 
          {/* --- Pricing & Packages (6th Section) --- */}
-         <section className="py-8 sm:py-16 px-4 bg-[#fff9f2] relative overflow-hidden">
-            <div className="max-w-[1200px] mx-auto space-y-2 sm:space-y-16 relative z-10">
-               <div className="text-center space-y-4">
-                  <h2 className="text-3xl lg:text-5xl font-serif font-black text-[#a64d1d] uppercase tracking-tight">
+         <section className="py-12 sm:py-24 px-4 bg-gradient-to-b from-[#fff9f2] to-white relative overflow-hidden">
+            <div className="max-w-[1200px] mx-auto space-y-12 relative z-10">
+               <div className="text-center space-y-3">
+                  <h2 className="text-3xl lg:text-4xl font-serif font-black text-[#c2410c] uppercase tracking-tight">
                      {page.section6_title || 'প্যাকেজ ও প্রাইস'}
                   </h2>
-                  <p className="text-sm lg:text-lg font-bold text-gray-500">
+                  <p className="text-sm lg:text-base font-bold text-gray-500">
                      {page.section6_subtitle || 'আপনার পছন্দের Power Honey প্যাকেজটি বেছে নিন'}
                   </p>
                </div>
 
-               <div className="flex flex-wrap justify-center gap-10 lg:gap-14 pt-8">
+               <div className="flex flex-wrap justify-center gap-6 lg:gap-8 pt-4">
                   {(page.section6_packages.length > 0 ? page.section6_packages : products.map(p => ({
                      name: p.name,
                      price: p.price,
                      is_best_value: products.indexOf(p) === 1,
                      badge: products.indexOf(p) === 1 ? 'Best Value' : ''
-                  }))).map((pkg: any, idx: number) => (
-                     <div key={idx} className={`w-full max-w-[340px] bg-white rounded-2xl p-10 border-2 transition-all duration-700 hover:shadow-[0_30px_60px_-15px_rgba(234,88,12,0.2)] flex flex-col items-center text-center space-y-8 relative group ${pkg.is_best_value ? 'border-[#ea580c] scale-105 shadow-2xl' : 'border-orange-100/50 hover:border-orange-200 shadow-xl shadow-orange-900/[0.03]'}`}>
-                        {pkg.is_best_value && (
-                           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                              <div className="bg-[#ea580c] text-white text-[11px] font-black px-8 py-2 rounded-full uppercase tracking-[0.15em] whitespace-nowrap shadow-[0_10px_20px_-5px_rgba(234,88,12,0.5)]">
-                                 {pkg.badge || 'Best Value'}
+                  }))).map((pkg: any, idx: number) => {
+                     // Extract quantity if possible, e.g. "6 Bottle"
+                     const nameParts = pkg.name.split(' ');
+                     const mainName = nameParts.slice(0, 2).join(' '); // Power Honey
+                     const quantity = nameParts.slice(2).join(' '); // 6 Bottle
+                     
+                     return (
+                        <div key={idx} className={`w-full max-w-[300px] sm:max-w-[320px] bg-white rounded-2xl sm:rounded-[32px] p-5 sm:p-8 border-2 transition-all duration-500 hover:shadow-xl flex flex-col items-center text-center space-y-4 sm:space-y-6 relative ${pkg.is_best_value ? 'border-[#ea580c] shadow-lg' : 'border-orange-100/50 shadow-sm'}`}>
+                           {pkg.is_best_value && (
+                              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+                                 <div className="bg-[#ea580c] text-white text-[9px] sm:text-[10px] font-black px-4 sm:px-6 py-1.5 sm:py-2 rounded-full uppercase tracking-wider shadow-md whitespace-nowrap">
+                                    {pkg.badge || 'Best Value'}
+                                 </div>
                               </div>
+                           )}
+                           
+                           <div className="space-y-0.5 sm:space-y-1">
+                              <p className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wide">{mainName || 'Power Honey'}</p>
+                              <h4 className="text-xl sm:text-2xl font-black text-[#ea580c]">{quantity || pkg.name}</h4>
                            </div>
-                        )}
-                        <div className="space-y-3">
-                           <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">{pkg.name.split(' ')[0]}</p>
-                           <h4 className="text-2xl font-serif font-black text-gray-800 leading-tight">{pkg.name}</h4>
+
+                           <div className="flex items-baseline gap-0.5 py-1 sm:py-2 w-full justify-center">
+                              <span className="text-3xl sm:text-5xl font-black text-gray-900">{formatCurrency(pkg.price).replace('৳', '')}</span>
+                              <span className="text-lg sm:text-2xl font-bold text-gray-900">৳</span>
+                           </div>
+
+                           <Button onClick={scrollToCheckout} className="w-full h-11 sm:h-12 bg-[#ea580c] hover:bg-[#c2410c] text-white rounded-lg sm:rounded-xl text-base sm:text-lg font-black transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-95">
+                              অর্ডার করুন
+                           </Button>
                         </div>
-                        <div className="flex items-baseline gap-2 py-4 border-y border-orange-50 w-full justify-center">
-                           <span className="text-5xl font-sans font-black text-gray-900">{formatCurrency(pkg.price)}</span>
-                        </div>
-                        <Button onClick={scrollToCheckout} className="w-full h-14 bg-[#ea580c] hover:bg-[#c2410c] text-white rounded-lg text-lg font-black transition-all shadow-lg shadow-orange-200 flex items-center justify-center gap-2 group active:scale-95">
-                           অর্ডার করুন
-                        </Button>
-                     </div>
-                  ))}
+                     );
+                  })}
                </div>
             </div>
          </section>
@@ -569,25 +560,29 @@ export default function LandingPageView() {
                                     setSelectedProduct({ id: `pkg-${idx}`, name: pkg.name, price: pkg.price } as any);
                                  }
                               }}
-                              className={`relative p-3 border-2 rounded-2xl cursor-pointer transition-all flex items-center gap-4 ${isSelected ? 'border-[#ea580c] bg-orange-50/50 shadow-sm' : 'border-gray-100 hover:border-gray-200 bg-white'}`}
+                              className={`relative p-3 border-2 rounded-2xl cursor-pointer transition-all duration-300 flex items-center gap-4 ${
+                                 isSelected 
+                                    ? 'border-[#ea580c] bg-orange-50/80 shadow-[0_10px_20px_-5px_rgba(234,88,12,0.1)] scale-[1.02] ring-1 ring-[#ea580c]/30' 
+                                    : 'border-gray-100 hover:border-gray-300 bg-white hover:shadow-md'
+                              }`}
                            >
-                              <div className="w-20 h-20 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shrink-0">
+                              <div className={`w-20 h-20 rounded-xl overflow-hidden border transition-colors duration-300 shrink-0 ${isSelected ? 'border-orange-200 bg-white' : 'border-gray-100 bg-gray-50'}`}>
                                  <img src={pkg.image || 'https://images.unsplash.com/photo-1589330273594-fade1ee91647?q=80&w=200'} className="w-full h-full object-cover" alt={pkg.name} />
                               </div>
                               <div className="flex-1">
-                                 <h5 className="font-bold text-sm text-gray-800">{pkg.name}</h5>
-                                 <p className="text-xl font-black text-[#ea580c]">{formatCurrency(pkg.price)}</p>
+                                 <h5 className={`font-bold text-sm transition-colors ${isSelected ? 'text-[#451a03]' : 'text-gray-700'}`}>{pkg.name}</h5>
+                                 <p className={`text-xl font-black transition-colors ${isSelected ? 'text-[#c2410c]' : 'text-[#ea580c]'}`}>{formatCurrency(pkg.price)}</p>
                               </div>
 
-                              {pkg.is_best_value && !isSelected && (
-                                 <div className="absolute top-0 right-0 bg-[#ea580c] text-white text-[9px] font-bold px-2 py-0.5 rounded-bl-lg rounded-tr-lg">
+                              {pkg.is_best_value && (
+                                 <div className={`absolute top-0 right-0 text-[9px] font-black px-2.5 py-1 rounded-bl-xl rounded-tr-[14px] uppercase tracking-wider transition-all ${isSelected ? 'bg-[#c2410c] text-white' : 'bg-[#ea580c] text-white opacity-90'}`}>
                                     {pkg.badge || 'Best Price'}
                                  </div>
                               )}
 
                               {isSelected && (
-                                 <div className="absolute top-0 right-0 bg-[#ea580c] rounded-bl-lg rounded-tr-lg p-1">
-                                    <CheckCircle2 className="h-4 w-4 text-white" />
+                                 <div className="absolute -top-2 -right-2 bg-[#ea580c] text-white rounded-full p-1.5 shadow-lg border-2 border-white animate-pop">
+                                    <CheckCircle2 className="h-4 w-4" />
                                  </div>
                               )}
                            </div>
@@ -649,7 +644,7 @@ export default function LandingPageView() {
 
 
          {/* --- Minimalist Footer --- */}
-         <footer className="py-10 bg-[#451a03] text-white text-center border-t border-white/5">
+         {/* <footer className="py-10 bg-[#451a03] text-white text-center border-t border-white/5">
             <div className="max-w-[1200px] mx-auto px-6 space-y-6">
                <div className="flex justify-center gap-6 opacity-60">
                   <Facebook className="h-5 w-5 cursor-pointer hover:text-orange-400 transition-colors" />
@@ -661,7 +656,7 @@ export default function LandingPageView() {
                   © {new Date().getFullYear()} | {settings?.site_name || 'AS Organic Hub'} | All Rights Reserved
                </p>
             </div>
-         </footer>
+         </footer> */}
 
       </div>
    );
