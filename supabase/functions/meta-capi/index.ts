@@ -103,8 +103,11 @@ Deno.serve(async (req) => {
     }
     if (user_data.fbp) hashedUserData.fbp = user_data.fbp;
     if (user_data.fbc) hashedUserData.fbc = user_data.fbc;
-    if (user_data.client_ip_address) {
-      hashedUserData.client_ip_address = user_data.client_ip_address;
+    
+    // Extract actual client IP from Supabase request headers
+    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || user_data.client_ip_address;
+    if (clientIp) {
+      hashedUserData.client_ip_address = clientIp.split(',')[0].trim();
     }
 
     // Hash PII fields
