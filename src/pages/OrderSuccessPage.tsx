@@ -20,7 +20,7 @@ export default function OrderSuccessPage() {
     if (trackedRef.current) return;
 
     // Try to get data from navigation state first (immediate, no RLS issues)
-    if (location.state && location.state.total) {
+    if (location.state && location.state.total !== undefined) {
       console.log('[OrderSuccess] Tracking Purchase from state:', location.state);
       trackPurchase({
         orderId: orderId,
