@@ -285,6 +285,7 @@ export function trackPurchase(params: {
       value: params.value,
       currency: params.currency,
       contents: params.contents,
+      content_ids: params.contents.map(c => c.id),
       content_type: 'product',
       order_id: params.orderId,
       num_items: params.contents.reduce((sum, c) => sum + c.quantity, 0),
